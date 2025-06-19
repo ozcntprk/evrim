@@ -1,13 +1,107 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkileşimli Rapor: Eşeysel Seçilim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Chosen Palette: Earthy Neutrals & Muted Tones -->
+    <!-- Application Structure Plan: A single-page application with a fixed sidebar for navigation. This thematic structure (Introduction, Mechanisms, Theories, Comparison, Outcomes, Humans) breaks down the dense report into digestible, user-led topics. It prioritizes exploration over linear reading, using interactive elements within each section to explain core concepts, making the information more engaging and easier to retain. This design is chosen for its clarity and ability to handle complex information without overwhelming the user. -->
+    <!-- Visualization & Content Choices:
+        1. Natural vs. Sexual Selection: Report's comparison table -> Goal: Visually contrast core pressures -> Viz: Interactive Bar Chart (Chart.js) -> Interaction: Buttons toggle data to show the balance between survival and reproduction pressure for each selection type. -> Justification: More dynamic and impactful than a static table.
+        2. Intrasexual vs. Intersexual: Report's mechanism descriptions -> Goal: Clarify the two main pathways -> Viz: Two-column interactive panel with HTML/CSS icons -> Interaction: Clicking a mechanism reveals detailed explanations and examples. -> Justification: A clear, interactive choice that simplifies the central dichotomy of the theory.
+        3. Key Theories: Report's list of hypotheses -> Goal: Explain complex theories concisely -> Viz: Accordion-style cards (HTML/CSS) -> Interaction: Clicking a theory expands its card to show details. -> Justification: Saves space and allows focused learning on one theory at a time.
+        4. Sexual Dimorphism: Report's outcome description -> Goal: Visualize physical differences -> Viz: Side-by-side comparison cards (HTML/CSS) with placeholders. -> Justification: Direct visual comparison is the most effective teaching method for this concept. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link { transition: all 0.2s ease-in-out; }
+        .nav-link.active { background-color: #0d9488; color: white; }
+        .nav-link:not(.active):hover { background-color: #f0fdfa; color: #134e4a; }
+        .content-section { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 450px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .mechanism-card, .theory-card { transition: all 0.3s ease-in-out; }
+        .mechanism-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<div class="flex flex-col md:flex-row min-h-screen">
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 bg-white md:border-r border-gray-200 p-4 md:p-6 sticky top-0 md:h-screen">
+        <h1 class="text-2xl font-bold text-teal-800 mb-6">Eşeysel Seçilim</h1>
+        <nav id="main-nav" class="flex flex-row md:flex-col gap-2">
+            <a href="#eseyli_secilim" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Giriş</a>
+        </nav>
+        <div class="hidden md:block mt-8 text-xs text-gray-400">
+            <p>&copy; 2025 Etkileşimli Rapor. Rapor içeriği akademik çalışmalara dayanmaktadır.</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 sm:p-6 md:p-10">
+        <!-- Giriş Section -->
+        <section id="giris" class="content-section">
+            <h2 class="text-3xl font-bold text-teal-700 mb-4">Eşeysel Seçilim Nedir?</h2>
+            <p class="text-lg text-gray-600 mb-6">Bu bölüm, eşeysel seçilimin temel tanımını ve evrimsel biyolojideki yerini tanıtmaktadır. Eşeysel seçilimin, bir canlının hayatta kalma şansını doğrudan artırmasa bile üreme başarısını artıran özelliklerin evrimini nasıl yönlendirdiğini keşfedeceksiniz. Tavus kuşunun kuyruğu gibi klasik örnekler üzerinden bu büyüleyici evrimsel gücün mantığını anlayacaksınız.</p>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <p class="mb-4">Eşeysel seçilim, Charles Darwin tarafından tanımlanan ve bir organizmanın üreme başarısını etkileyen özellikler üzerindeki seçilim baskısını ifade eden özel bir doğal seçilim türüdür. Temel olarak, bireylerin hayatta kalma şanslarını artırmak yerine, eş bulma ve çiftleşme şanslarını artıran kalıtsal özelliklerin nesiller boyunca yaygınlaşmasıdır.</p>
+                <p>En bilinen örneklerden biri tavus kuşunun gösterişli kuyruğudur. Bu kuyruk, kuşu yavaşlatarak ve avcılara karşı daha görünür kılarak hayatta kalma şansını azaltabilir. Ancak, dişiler en gösterişli kuyruklara sahip erkekleri tercih ettiği için, bu özellik üreme başarısını muazzam derecede artırır. Bu durum, evrimin nihai hedefinin yalnızca hayatta kalmak değil, genleri bir sonraki nesle başarılı bir şekilde aktarmak olduğunu gösteren mükemmel bir örnektir.</p>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('#main-nav a');
+        const sections = document.querySelectorAll('.content-section');
+
+        let selectionChart;
+
+        function navigate(hash) {
+            sections.forEach(section => {
+                if ('#' + section.id === hash) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const hash = e.currentTarget.getAttribute('href');
+                window.location.hash = hash;
+            });
+        });
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash || '#giris';
+            navigate(hash);
+        });
+
+        const initialHash = window.location.hash || '#giris';
+        navigate(initialHash);
+    });
+</script>
 </body>
 </html>
