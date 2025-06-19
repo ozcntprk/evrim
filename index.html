@@ -57,46 +57,6 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const navLinks = document.querySelectorAll('#main-nav a');
-        const sections = document.querySelectorAll('.content-section');
-
-        let selectionChart;
-
-        function navigate(hash) {
-            sections.forEach(section => {
-                if ('#' + section.id === hash) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
-            });
-
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === hash) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const hash = e.currentTarget.getAttribute('href');
-                window.location.hash = hash;
-            });
-        });
-
-        window.addEventListener('hashchange', () => {
-            const hash = window.location.hash || '#giris';
-            navigate(hash);
-        });
-
-        const initialHash = window.location.hash || '#giris';
-        navigate(initialHash);
-    });
 </script>
 </body>
 </html>
