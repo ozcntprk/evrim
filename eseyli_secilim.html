@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkileşimli Rapor: Eşeysel Seçilim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Earthy Neutrals & Muted Tones -->
+    <!-- Application Structure Plan: A single-page application with a fixed sidebar for navigation. This thematic structure (Introduction, Mechanisms, Theories, Comparison, Outcomes, Humans) breaks down the dense report into digestible, user-led topics. It prioritizes exploration over linear reading, using interactive elements within each section to explain core concepts, making the information more engaging and easier to retain. This design is chosen for its clarity and ability to handle complex information without overwhelming the user. -->
+    <!-- Visualization & Content Choices: 
+        1. Natural vs. Sexual Selection: Report's comparison table -> Goal: Visually contrast core pressures -> Viz: Interactive Bar Chart (Chart.js) -> Interaction: Buttons toggle data to show the balance between survival and reproduction pressure for each selection type. -> Justification: More dynamic and impactful than a static table.
+        2. Intrasexual vs. Intersexual: Report's mechanism descriptions -> Goal: Clarify the two main pathways -> Viz: Two-column interactive panel with HTML/CSS icons -> Interaction: Clicking a mechanism reveals detailed explanations and examples. -> Justification: A clear, interactive choice that simplifies the central dichotomy of the theory.
+        3. Key Theories: Report's list of hypotheses -> Goal: Explain complex theories concisely -> Viz: Accordion-style cards (HTML/CSS) -> Interaction: Clicking a theory expands its card to show details. -> Justification: Saves space and allows focused learning on one theory at a time.
+        4. Sexual Dimorphism: Report's outcome description -> Goal: Visualize physical differences -> Viz: Side-by-side comparison cards (HTML/CSS) with placeholders. -> Justification: Direct visual comparison is the most effective teaching method for this concept. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link { transition: all 0.2s ease-in-out; }
+        .nav-link.active { background-color: #0d9488; color: white; }
+        .nav-link:not(.active):hover { background-color: #f0fdfa; color: #134e4a; }
+        .content-section { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 450px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .mechanism-card, .theory-card { transition: all 0.3s ease-in-out; }
+        .mechanism-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 bg-white md:border-r border-gray-200 p-4 md:p-6 sticky top-0 md:h-screen">
+            <h1 class="text-2xl font-bold text-teal-800 mb-6">Eşeysel Seçilim</h1>
+            <nav id="main-nav" class="flex flex-row md:flex-col gap-2">
+                <a href="#giris" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Giriş</a>
+                <a href="#karsilastirma" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">İki Seçilim Gücü</a>
+                <a href="#mekanizmalar" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Temel Mekanizmalar</a>
+                <a href="#teoriler" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Anahtar Teoriler</a>
+                <a href="#sonuclar" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Evrimsel Sonuçlar</a>
+                <a href="#insan" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">İnsan ve Evrim</a>
+            </nav>
+            <div class="hidden md:block mt-8 text-xs text-gray-400">
+                <p>&copy; 2025 Etkileşimli Rapor. Rapor içeriği akademik çalışmalara dayanmaktadır.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 sm:p-6 md:p-10">
+            <!-- Giriş Section -->
+            <section id="giris" class="content-section">
+                <h2 class="text-3xl font-bold text-teal-700 mb-4">Eşeysel Seçilim Nedir?</h2>
+                <p class="text-lg text-gray-600 mb-6">Bu bölüm, eşeysel seçilimin temel tanımını ve evrimsel biyolojideki yerini tanıtmaktadır. Eşeysel seçilimin, bir canlının hayatta kalma şansını doğrudan artırmasa bile üreme başarısını artıran özelliklerin evrimini nasıl yönlendirdiğini keşfedeceksiniz. Tavus kuşunun kuyruğu gibi klasik örnekler üzerinden bu büyüleyici evrimsel gücün mantığını anlayacaksınız.</p>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="mb-4">Eşeysel seçilim, Charles Darwin tarafından tanımlanan ve bir organizmanın üreme başarısını etkileyen özellikler üzerindeki seçilim baskısını ifade eden özel bir doğal seçilim türüdür. Temel olarak, bireylerin hayatta kalma şanslarını artırmak yerine, eş bulma ve çiftleşme şanslarını artıran kalıtsal özelliklerin nesiller boyunca yaygınlaşmasıdır.</p>
+                    <p>En bilinen örneklerden biri tavus kuşunun gösterişli kuyruğudur. Bu kuyruk, kuşu yavaşlatarak ve avcılara karşı daha görünür kılarak hayatta kalma şansını azaltabilir. Ancak, dişiler en gösterişli kuyruklara sahip erkekleri tercih ettiği için, bu özellik üreme başarısını muazzam derecede artırır. Bu durum, evrimin nihai hedefinin yalnızca hayatta kalmak değil, genleri bir sonraki nesle başarılı bir şekilde aktarmak olduğunu gösteren mükemmel bir örnektir.</p>
+                </div>
+            </section>
+
+            <!-- Karşılaştırma Section -->
+            <section id="karsilastirma" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-teal-700 mb-4">İki Büyük Seçilim Gücü</h2>
+                 <p class="text-lg text-gray-600 mb-6">Doğal seçilim ve eşeysel seçilim evrimin iki ana motorudur, ancak farklı hedeflere odaklanırlar. Bu interaktif bölüm, iki süreç arasındaki temel farkları görselleştirmektedir. Aşağıdaki butonları kullanarak grafiği değiştirin ve her bir seçilim türünün hayatta kalma ve üreme başarısı üzerindeki göreceli etkisini karşılaştırın. Bu, iki gücün bazen nasıl çatıştığını anlamanıza yardımcı olacaktır.</p>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <div class="flex justify-center gap-4 mb-6">
+                        <button id="showNatural" class="px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75">Doğal Seçilim</p>
+                        <button id="showSexual" class="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">Eşeysel Seçilim</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="selectionChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mekanizmalar Section -->
+            <section id="mekanizmalar" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-teal-700 mb-4">Eşeysel Seçilimin Mekanizmaları</h2>
+                <p class="text-lg text-gray-600 mb-6">Eşeysel seçilim iki ana mekanizma üzerinden işler. Aşağıdaki kartlara tıklayarak bu iki temel süreci ve doğadaki yansımalarını keşfedin. Bir yanda aynı cinsiyetten bireylerin eşler için kıyasıya rekabeti, diğer yanda ise bir cinsiyetin belirli özelliklere sahip eşleri dikkatle seçmesi yer alır. Bu iki mekanizma, hayvanlar alemindeki inanılmaz çeşitliliğin arkasındaki itici güçtür.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div id="intra-card" class="mechanism-card bg-white p-6 rounded-xl shadow-sm border border-gray-200 cursor-pointer">
+                        <h3 class="text-2xl font-bold mb-2">1. Cinsiyet-İçi Seçilim (Rekabet)</h3>
+                        <p class="text-gray-600">Aynı cinsiyetten bireylerin (genellikle erkekler) eşlere erişim için birbirleriyle rekabet etmesi. Daha fazlası için tıklayın.</p>
+                        <div id="intra-details" class="hidden mt-4 pt-4 border-t border-gray-200">
+                             <p class="font-semibold">Örnekler:</p>
+                            <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                                <li><b>Fiziksel Çatışma:</b> Geyiklerin boynuz tokuşturması veya deniz fillerinin dişilerle dolu bir harem için ölümüne dövüşmesi.</li>
+                                <li><b>Sperm Rekabeti:</b> Bir dişinin birden fazla erkekle çiftleştiği durumlarda, spermlerin yumurtayı döllemek için yarışması.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="inter-card" class="mechanism-card bg-white p-6 rounded-xl shadow-sm border border-gray-200 cursor-pointer">
+                        <h3 class="text-2xl font-bold mb-2">2. Cinsiyetler-Arası Seçilim (Seçim)</h3>
+                        <p class="text-gray-600">Bir cinsiyetin (genellikle dişiler) diğer cinsiyetten eşleri belirli özelliklere göre seçmesi. Daha fazlası için tıklayın.</p>
+                         <div id="inter-details" class="hidden mt-4 pt-4 border-t border-gray-200">
+                             <p class="font-semibold">Örnekler:</p>
+                            <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                                <li><b>Gösterişli Özellikler:</b> Tavus kuşunun kuyruğu, cennet kuşlarının karmaşık kur dansları ve ötücü kuşların melodik şarkıları.</li>
+                                <li><b>Dürüst Sinyaller:</b> Bu gösterişli özellikler genellikle erkeğin sağlığı, genetik kalitesi veya kaynak sağlama yeteneği hakkında "dürüst" sinyaller verir.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Teoriler Section -->
+            <section id="teoriler" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-teal-700 mb-4">Neden Seçim Yapılır? Anahtar Teoriler</h2>
+                <p class="text-lg text-gray-600 mb-6">Peki, dişiler neden bu kadar gösterişli veya "pahalı" özelliklere sahip erkekleri tercih eder? Bilim insanları bu soruyu açıklamak için birkaç önemli teori geliştirmiştir. Aşağıdaki başlıklara tıklayarak, eş tercihinin ardındaki evrimsel mantığı açıklayan temel hipotezleri ve bu teorilerin ne anlama geldiğini öğrenebilirsiniz.</p>
+                <div id="theories-container" class="space-y-4">
+                    <div class="theory-card bg-white rounded-xl shadow-sm border border-gray-200">
+                        <button class="w-full text-left p-6">
+                            <h3 class="text-xl font-bold">Handikap İlkesi</h3>
+                        </button>
+                        <div class="theory-content hidden px-6 pb-6 text-gray-600">
+                            <p>Bu teoriye göre, bir erkeğin hayatta kalmasını zorlaştıran (yani bir "handikap" olan) gösterişli bir özelliği taşıyabilmesi, onun ne kadar güçlü ve genetik olarak üstün olduğunun dürüst bir kanıtıdır. Örneğin, devasa bir kuyruğa rağmen hayatta kalabilen bir tavus kuşu, gerçekten de "kaliteli" bir birey olmalıdır.</p>
+                        </div>
+                    </div>
+                     <div class="theory-card bg-white rounded-xl shadow-sm border border-gray-200">
+                        <button class="w-full text-left p-6">
+                            <h3 class="text-xl font-bold">"İyi Genler" Hipotezi</h3>
+                        </button>
+                        <div class="theory-content hidden px-6 pb-6 text-gray-600">
+                            <p>Bu hipotez, gösterişli özelliklerin (parlak renkler, simetrik desenler vb.) erkeğin sağlıklı olduğuna, hastalıklara karşı dirençli olduğuna ve genel olarak iyi genlere sahip olduğuna dair bir işaret olduğunu öne sürer. Dişi, bu erkeği seçerek bu "iyi genleri" kendi yavrularına aktarmış olur.</p>
+                        </div>
+                    </div>
+                     <div class="theory-card bg-white rounded-xl shadow-sm border border-gray-200">
+                        <button class="w-full text-left p-6">
+                            <h3 class="text-xl font-bold">"Seksi Oğul" Hipotezi</h3>
+                        </button>
+                        <div class="theory-content hidden px-6 pb-6 text-gray-600">
+                            <p>Bu fikir, dişilerin sadece çekici buldukları erkekleri seçtiğini ve bunun bir geri besleme döngüsü yarattığını söyler. Çekici bir erkeği seçen dişinin oğulları da çekici olacak ve diğer dişiler tarafından tercih edilecektir. Böylece, dişinin genleri "seksi oğulları" aracılığıyla daha fazla yayılma şansı bulur.</p>
+                        </div>
+                    </div>
+                    <div class="theory-card bg-white rounded-xl shadow-sm border border-gray-200">
+                        <button class="w-full text-left p-6">
+                            <h3 class="text-xl font-bold">Ebeveyn Yatırımı Teorisi</h3>
+                        </button>
+                        <div class="theory-content hidden px-6 pb-6 text-gray-600">
+                            <p>Robert Trivers tarafından geliştirilen bu teori, yavruya daha fazla zaman ve enerji yatırımı yapan cinsiyetin (genellikle dişi) eş seçiminde daha seçici olacağını belirtir. Daha az yatırım yapan cinsiyet (genellikle erkek) ise eşlere ulaşmak için daha fazla rekabet edecektir. Bu, cinsiyet rolleri ve davranışlarındaki temel farklılıkları açıklar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sonuçlar Section -->
+            <section id="sonuclar" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-teal-700 mb-4">Evrimsel Sonuçlar</h2>
+                <p class="text-lg text-gray-600 mb-6">Eşeysel seçilimin sürekli işlemesi, türler üzerinde gözle görülür ve derin etkiler bırakır. Bu bölümde, eşeysel seçilimin en bilinen iki sonucunu inceliyoruz: aynı türün erkek ve dişileri arasındaki çarpıcı farklılıklar (cinsel dimorfizm) ve hatta yeni türlerin ortaya çıkmasına nasıl zemin hazırlayabildiği (türleşme).</p>
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <h3 class="text-2xl font-bold mb-2">Cinsel Dimorfizm</h3>
+                        <p class="mb-4">Aynı türün erkek ve dişi bireyleri arasındaki boyut, renk, şekil ve yapı farklılıklarıdır. Eşeysel seçilim, bu farklılıkların ana nedenidir. Erkekler genellikle daha büyük, daha renkli veya daha süslü olurken, dişiler genellikle daha sade ve kamufle edici renklere sahiptir.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                            <div class="border p-4 rounded-lg">
+                                <img src="https://placehold.co/400x300/4d7c0f/ffffff?text=Erkek+Mandarin+%C3%96rde%C4%9Fi" alt="Erkek Mandarin Ördeği" class="w-full h-auto rounded-md object-cover mb-2">
+                                <p class="font-semibold">Erkek: Canlı Renkler</p>
+                                <p class="text-sm text-gray-500">Dişileri çekmek için gösterişli tüyler.</p>
+                            </div>
+                            <div class="border p-4 rounded-lg">
+                                <img src="https://placehold.co/400x300/a3a3a3/ffffff?text=Di%C5%9Fi+Mandarin+%C3%96rde%C4%9Fi" alt="Dişi Mandarin Ördeği" class="w-full h-auto rounded-md object-cover mb-2">
+                                <p class="font-semibold">Dişi: Sade Renkler</p>
+                                <p class="text-sm text-gray-500">Yuvada ve yavrularla kamufle olmak için.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <h3 class="text-2xl font-bold mb-2">Türleşme</h3>
+                        <p class="mb-4">Eşeysel seçilim, yeni türlerin oluşumunda da kritik bir rol oynayabilir. Bir popülasyon coğrafi olarak ikiye ayrıldığında, her bir gruptaki dişilerin farklı erkek özelliklerini tercih etmeye başlaması, zamanla bu iki grubun genetik olarak o kadar farklılaşmasına yol açabilir ki artık birbirleriyle çiftleşemez hale gelirler. Bu, üreme izolasyonuna ve nihayetinde yeni türlerin doğmasına neden olur.</p>
+                         <p class="text-gray-600">Örneğin, Afrika'daki Victoria Gölü'ndeki yüzlerce farklı çiklit balığı türünün hızlı evriminin, büyük ölçüde dişi balıkların farklı renkteki erkekleri tercih etmesiyle tetiklendiği düşünülmektedir.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- İnsan Section -->
+            <section id="insan" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-teal-700 mb-4">İnsan Evrimindeki Rolü</h2>
+                <p class="text-lg text-gray-600 mb-6">Peki ya biz? Eşeysel seçilim insan türünün evrimini nasıl şekillendirdi ve modern davranışlarımıza nasıl yansıyor? Bu bölüm, insanlardaki eş seçimi dinamiklerini, kültürel etkileri ve bu evrimsel mirasın günümüz toplumlarındaki potansiyel yansımalarını ele alıyor. İnsan zekası, yaratıcılığı ve sosyal davranışları gibi özelliklerin evriminde eşeysel seçilimin oynadığı rol, güncel bir tartışma konusudur.</p>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 space-y-4">
+                    <p>İnsanlarda tavus kuşu gibi bariz süslemeler olmasa da, eşeysel seçilimin evrimimizde güçlü bir rol oynadığı kabul edilir. İnsanlarda her iki cinsiyet de eş seçiminde aktiftir, ancak evrimsel psikolojiye göre bazı temel eğilimler gözlemlenir:</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li><b>Kadınların Tercihleri:</b> Kadınlar, genellikle kaynak sağlama potansiyeli, sosyal statü, zeka ve bağlılık gibi özellikleri partnerlerinde daha fazla değerlendirme eğilimindedir. Bu, yavrularını başarılı bir şekilde büyütebilmek için gerekli kaynak ve korumayı sağlayacak bir eş bulma baskısından kaynaklanabilir.</li>
+                        <li><b>Erkeklerin Tercihleri:</b> Erkekler ise genellikle doğurganlığın sinyalleri olan gençlik ve fiziksel sağlık göstergelerini (simetrik yüz, sağlıklı cilt vb.) daha fazla değerlendirme eğilimindedir.</li>
+                    </ul>
+                    <p>Zeka, mizah, yaratıcılık ve dil gibi insana özgü karmaşık yeteneklerin de bir kısmının, potansiyel eşleri etkilemek için evrimleşmiş "zihinsel süslemeler" olabileceği öne sürülmektedir. Bu özellikler, iyi genlerin ve sağlıklı bir beynin dolaylı göstergeleri olarak hizmet etmiş olabilir.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('#main-nav a');
+    const sections = document.querySelectorAll('.content-section');
+    const chartButtonNatural = document.getElementById('showNatural');
+    const chartButtonSexual = document.getElementById('showSexual');
+    
+    let selectionChart;
+
+    function navigate(hash) {
+        sections.forEach(section => {
+            if ('#' + section.id === hash) {
+                section.classList.remove('hidden');
+            } else {
+                section.classList.add('hidden');
+            }
+        });
+
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === hash) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        if (hash === '#karsilastirma') {
+            initOrUpdateChart('natural');
+            updateChartButtons('natural');
+        }
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const hash = e.currentTarget.getAttribute('href');
+            window.location.hash = hash;
+        });
+    });
+
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash || '#giris';
+        navigate(hash);
+    });
+
+    const initialHash = window.location.hash || '#giris';
+    navigate(initialHash);
+
+    const data = {
+        natural: {
+            labels: ['Hayatta Kalma Baskısı', 'Üreme Başarısı Baskısı'],
+            values: [90, 60],
+            backgroundColor: 'rgba(13, 148, 136, 0.6)',
+            borderColor: 'rgba(13, 148, 136, 1)',
+            title: 'Doğal Seçilim Baskıları'
+        },
+        sexual: {
+            labels: ['Hayatta Kalma Baskısı', 'Üreme Başarısı Baskısı'],
+            values: [20, 95],
+            backgroundColor: 'rgba(245, 158, 11, 0.6)',
+            borderColor: 'rgba(245, 158, 11, 1)',
+            title: 'Eşeysel Seçilim Baskıları'
+        }
+    };
+    
+    function initOrUpdateChart(type) {
+        const chartData = data[type];
+        const ctx = document.getElementById('selectionChart').getContext('2d');
+        
+        if (selectionChart) {
+            selectionChart.data.datasets[0].data = chartData.values;
+            selectionChart.data.datasets[0].backgroundColor = chartData.backgroundColor;
+            selectionChart.data.datasets[0].borderColor = chartData.borderColor;
+            selectionChart.options.plugins.title.text = chartData.title;
+            selectionChart.update();
+        } else {
+            selectionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels.map(label => label.split(' ')),
+                    datasets: [{
+                        label: 'Seçilim Baskısının Gücü',
+                        data: chartData.values,
+                        backgroundColor: chartData.backgroundColor,
+                        borderColor: chartData.borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                             grid: { color: '#e5e7eb' }
+                        },
+                        x: {
+                             grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: chartData.title,
+                            font: { size: 18, weight: 'bold' },
+                            color: '#374151'
+                        },
+                         tooltip: {
+                            backgroundColor: '#1f2937',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 4
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function updateChartButtons(activeType) {
+        if (activeType === 'natural') {
+            chartButtonNatural.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            chartButtonNatural.classList.add('bg-teal-600', 'text-white', 'hover:bg-teal-700');
+            chartButtonSexual.classList.remove('bg-teal-600', 'text-white', 'hover:bg-teal-700');
+            chartButtonSexual.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        } else {
+            chartButtonSexual.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            chartButtonSexual.classList.add('bg-teal-600', 'text-white', 'hover:bg-teal-700');
+            chartButtonNatural.classList.remove('bg-teal-600', 'text-white', 'hover:bg-teal-700');
+            chartButtonNatural.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        }
+    }
+    
+    if (chartButtonNatural) {
+        chartButtonNatural.addEventListener('click', () => {
+            initOrUpdateChart('natural');
+            updateChartButtons('natural');
+        });
+    }
+
+    if (chartButtonSexual) {
+        chartButtonSexual.addEventListener('click', () => {
+            initOrUpdateChart('sexual');
+            updateChartButtons('sexual');
+        });
+    }
+
+    const intraCard = document.getElementById('intra-card');
+    const interCard = document.getElementById('inter-card');
+    const intraDetails = document.getElementById('intra-details');
+    const interDetails = document.getElementById('inter-details');
+
+    if (intraCard) {
+        intraCard.addEventListener('click', () => {
+            intraDetails.classList.toggle('hidden');
+            intraCard.classList.toggle('border-teal-500');
+            intraCard.classList.toggle('border-2');
+        });
+    }
+     if (interCard) {
+        interCard.addEventListener('click', () => {
+            interDetails.classList.toggle('hidden');
+            interCard.classList.toggle('border-teal-500');
+            interCard.classList.toggle('border-2');
+        });
+    }
+
+    const theoriesContainer = document.getElementById('theories-container');
+    if(theoriesContainer){
+        const theoryButtons = theoriesContainer.querySelectorAll('button');
+        theoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const parentCard = button.parentElement;
+                
+                // Close other open theories
+                theoryButtons.forEach(otherButton => {
+                    if (otherButton !== button) {
+                        otherButton.nextElementSibling.classList.add('hidden');
+                        otherButton.parentElement.classList.remove('border-teal-500', 'border-2');
+                    }
+                });
+                
+                content.classList.toggle('hidden');
+                parentCard.classList.toggle('border-teal-500');
+                parentCard.classList.toggle('border-2');
+            });
+        });
+    }
+});
+</script>
+</body>
+</html>
