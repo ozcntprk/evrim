@@ -5,19 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etkileşimli Rapor: Eşeysel Seçilim</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Chosen Palette: Earthy Neutrals & Muted Tones -->
-    <!-- Application Structure Plan: A single-page application with a fixed sidebar for navigation. This thematic structure (Introduction, Mechanisms, Theories, Comparison, Outcomes, Humans) breaks down the dense report into digestible, user-led topics. It prioritizes exploration over linear reading, using interactive elements within each section to explain core concepts, making the information more engaging and easier to retain. This design is chosen for its clarity and ability to handle complex information without overwhelming the user. -->
-    <!-- Visualization & Content Choices:
-        1. Natural vs. Sexual Selection: Report's comparison table -> Goal: Visually contrast core pressures -> Viz: Interactive Bar Chart (Chart.js) -> Interaction: Buttons toggle data to show the balance between survival and reproduction pressure for each selection type. -> Justification: More dynamic and impactful than a static table.
-        2. Intrasexual vs. Intersexual: Report's mechanism descriptions -> Goal: Clarify the two main pathways -> Viz: Two-column interactive panel with HTML/CSS icons -> Interaction: Clicking a mechanism reveals detailed explanations and examples. -> Justification: A clear, interactive choice that simplifies the central dichotomy of the theory.
-        3. Key Theories: Report's list of hypotheses -> Goal: Explain complex theories concisely -> Viz: Accordion-style cards (HTML/CSS) -> Interaction: Clicking a theory expands its card to show details. -> Justification: Saves space and allows focused learning on one theory at a time.
-        4. Sexual Dimorphism: Report's outcome description -> Goal: Visualize physical differences -> Viz: Side-by-side comparison cards (HTML/CSS) with placeholders. -> Justification: Direct visual comparison is the most effective teaching method for this concept. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -37,23 +27,14 @@
 <div class="flex flex-col md:flex-row min-h-screen">
     <!-- Sidebar Navigation -->
     <aside class="w-full md:w-64 bg-white md:border-r border-gray-200 p-4 md:p-6 sticky top-0 md:h-screen">
-        <h1 class="text-2xl font-bold text-teal-800 mb-6">Eşeysel Seçilim</h1>
+        <h1 class="text-2xl font-bold text-teal-800 mb-6">Ana Sayfa</h1>
         <nav id="main-nav" class="flex flex-row md:flex-col gap-2">
-            <a href="eseyli_secilim.html" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Giriş</a>
+            <a href="eseyli_secilim.html" class="nav-link text-left p-3 rounded-lg font-semibold text-gray-700">Eşeyli Seçilim</a>
         </nav>
         <div class="hidden md:block mt-8 text-xs text-gray-400">
             <p>&copy; 2025 Etkileşimli Rapor. Rapor içeriği akademik çalışmalara dayanmaktadır.</p>
         </div>
     </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-4 sm:p-6 md:p-10">
-        <!-- Giriş Section -->
-        <section id="giris" class="content-section">
-            Test
-        </section>
-
-    </main>
 </div>
 
 <script>
